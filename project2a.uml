@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="80.45833333333337" y="917.0">App</node>
+    <node x="742.625" y="793.5">Turtle</node>
+    <node x="751.875" y="346.0">Rideable</node>
+    <node x="426.375" y="279.0">Obstacle</node>
+    <node x="154.0" y="323.5">Player</node>
+    <node x="149.125" y="0.0">Sprite</node>
+    <node x="545.625" y="581.0">Bulldozer</node>
+    <node x="0.0" y="335.0">Tile</node>
+    <node x="122.45833333333337" y="749.0">World</node>
+    <node x="101.95833333333337" y="514.0">Level</node>
+    <node x="719.625" y="581.0">WaterObstacle</node>
+    <node x="371.625" y="558.5">Bike</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Obstacle" target="Sprite">
+      <point x="0.0" y="-92.5" />
+      <point x="524.375" y="254.0" />
+      <point x="324.125" y="254.0" />
+      <point x="70.0" y="114.5" />
+    </edge>
+    <edge source="Tile" target="Sprite">
+      <point x="0.0" y="-36.5" />
+      <point x="67.0" y="254.0" />
+      <point x="184.125" y="254.0" />
+      <point x="-70.0" y="114.5" />
+    </edge>
+    <edge source="Level" target="Player">
+      <point x="0.0" y="-92.5" />
+      <point x="216.45833333333337" y="494.0" />
+      <point x="238.0" y="494.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="Level" target="Obstacle">
+      <point x="76.33333333333331" y="-92.5" />
+      <point x="292.7916666666667" y="484.0" />
+      <point x="450.875" y="484.0" />
+      <point x="-73.5" y="92.5" />
+    </edge>
+    <edge source="Player" target="Sprite">
+      <point x="0.0" y="-48.0" />
+      <point x="238.0" y="254.0" />
+      <point x="254.125" y="254.0" />
+      <point x="0.0" y="114.5" />
+    </edge>
+    <edge source="App" target="World">
+      <point x="0.0" y="-92.0" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="Turtle" target="WaterObstacle">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="Bike" target="Obstacle">
+      <point x="0.0" y="-48.0" />
+      <point x="448.625" y="494.0" />
+      <point x="499.875" y="494.0" />
+      <point x="-24.5" y="92.5" />
+    </edge>
+    <edge source="Level" target="Tile">
+      <point x="-76.33333333333331" y="-92.5" />
+      <point x="140.12500000000006" y="494.0" />
+      <point x="67.0" y="494.0" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="WaterObstacle" target="Rideable">
+      <point x="31.25" y="-25.5" />
+      <point x="0.0" y="25.5" />
+    </edge>
+    <edge source="World" target="Level">
+      <point x="0.0" y="-59.0" />
+      <point x="0.0" y="92.5" />
+    </edge>
+    <edge source="Bulldozer" target="Obstacle">
+      <point x="0.0" y="-25.5" />
+      <point x="622.625" y="494.0" />
+      <point x="548.875" y="494.0" />
+      <point x="24.5" y="92.5" />
+    </edge>
+    <edge source="WaterObstacle" target="Obstacle">
+      <point x="-31.25" y="-25.5" />
+      <point x="750.875" y="484.0" />
+      <point x="597.875" y="484.0" />
+      <point x="73.5" y="92.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="365.5" y="255.5" />
+  <SelectedNodes>
+    <node>Turtle</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
