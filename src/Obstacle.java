@@ -3,7 +3,6 @@ import org.newdawn.slick.SlickException;
 public class Obstacle extends Sprite {
   private boolean directionRight;
   private final float speed;
-  private final float spriteWidth;
   private final boolean isHazard;
   private final boolean isSolid;
 
@@ -35,7 +34,6 @@ public class Obstacle extends Sprite {
     this.speed = obs.speed;
     this.isHazard = obs.isHazard;
     this.isSolid = obs.isSolid;
-    spriteWidth = getSprite().getWidth();
   }
 
   public boolean isHazard() {
@@ -60,14 +58,16 @@ public class Obstacle extends Sprite {
     float newPosX = getPosX() + delta * direction * speed;
 
     // Reset obstacle to opposite end of screen
-    if (newPosX > App.SCREEN_WIDTH + spriteWidth / 2) {
-      newPosX = -(spriteWidth / 2);
-    } else if (newPosX < -spriteWidth / 2) {
-      newPosX = App.SCREEN_WIDTH + (spriteWidth / 2);
+    if (newPosX > App.SCREEN_WIDTH + getWidth() / 2) {
+      newPosX = -(getWidth() / 2);
+    } else if (newPosX < -getWidth() / 2) {
+      newPosX = App.SCREEN_WIDTH + (getWidth() / 2);
     }
 
     // Update position and bounding box
     setPosX(newPosX);
-    getBoundingBox().setX(newPosX);
+    if (getBoundingBox() != null) {
+      getBoundingBox().setX(newPosX);
+    }
   }
 }

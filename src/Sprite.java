@@ -3,7 +3,6 @@ import org.newdawn.slick.SlickException;
 import utilities.BoundingBox;
 
 public abstract class Sprite {
-  public static final int DEFAULT_WIDTH = 48;
 
   private Image sprite;
   private float posX, posY;
@@ -24,9 +23,8 @@ public abstract class Sprite {
   public Sprite(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     this(imageSrc, x, y);
     if (!directionRight && !imageSrc.equals("turtle") || (directionRight && imageSrc.equals("turtle"))) {
-      sprite = sprite.getFlippedCopy(true, false);
+      flipImage();
     }
-    sprite.setAlpha(1.0f);
   }
 
   public float getPosX() {
@@ -45,16 +43,26 @@ public abstract class Sprite {
     this.posY = posY;
   }
 
+  public float getWidth() {
+    return sprite.getWidth();
+  }
+
   public BoundingBox getBoundingBox() {
     return boundingBox;
   }
 
   public void enable() {
-    sprite.setAlpha(sprite.getAlpha() + 0.1f);
+    if (sprite.getAlpha() < 1) {
+      sprite.setAlpha(sprite.getAlpha() + 0.1f);
+    }
+    boundingBox = new BoundingBox(sprite, posX, posY);
   }
 
   public void disable() {
-    sprite.setAlpha(sprite.getAlpha() - 0.1f);
+    if (sprite.getAlpha() > 0) {
+      sprite.setAlpha(sprite.getAlpha() - 0.1f);
+    }
+    boundingBox = null;
   }
 
   public void flipImage() {
@@ -75,7 +83,10 @@ public abstract class Sprite {
   // Called between player and any dangerous sprite
   public void contactHazard(Sprite other) {
     if (boundingBox.intersects(other.getBoundingBox())) {
-      System.exit(0);
+      Player player = other instanceof Player ? ((Player) other) : null;
+      if (player != null) {
+        player.onDeath();
+      }
     }
   }
 }
