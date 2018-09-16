@@ -20,9 +20,8 @@ public class Tile extends Sprite {
 
   public Tile(String imageSrc, float x, float y) throws SlickException {
     super(imageSrc, x, y);
-    TILE tile = TILE.valueOf(imageSrc.toUpperCase());
-    this.isHazard = tile.isHazard;
-    this.isSolid = tile.isSolid;
+    this.isHazard = TILE.valueOf(imageSrc.toUpperCase()).isHazard;
+    this.isSolid = TILE.valueOf(imageSrc.toUpperCase()).isSolid;
   }
 
   public boolean isSolid() {

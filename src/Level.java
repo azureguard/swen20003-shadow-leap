@@ -1,3 +1,4 @@
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -10,10 +11,13 @@ import java.util.Arrays;
 
 public class Level {
   private static final String[] WATER_OBSTACLES = new String[]{"turtle", "log", "longLog"};
+  private static final int LIVES_INIT_X = 24;
+  private static final int LIVES_INIT_Y = 744;
 
   private ArrayList<Tile> tiles;
   private ArrayList<Obstacle> obstacles;
   private Player player;
+  private Image lives = new Image("assets/lives.png");
 
   public Level(String lvl) throws SlickException, IOException {
     player = new Player();
@@ -59,21 +63,24 @@ public class Level {
   }
 
   public void update(Input input, int delta) {
-
-    for (Tile tile : tiles) {
-      if (tile.isHazard()) {
-        tile.contactHazard(player);
-      }
-    }
+    player.update(input, delta, obstacles, tiles);
 
     for (Obstacle obstacle : obstacles) {
       obstacle.update(delta);
       if (obstacle.isHazard()) {
-        obstacle.contactHazard(player);
+        if (!player.isRiding() && obstacle.contactHazard(player)) {
+          break;
+        }
       }
     }
 
-    player.update(input);
+    for (Tile tile : tiles) {
+      if (tile.isHazard()) {
+        if (!player.isRiding() && tile.contactHazard(player)) {
+          break;
+        }
+      }
+    }
   }
 
   public void render() {
@@ -84,5 +91,8 @@ public class Level {
       obstacle.render();
     }
     player.render();
+    for (int i = 0; i < player.getLives(); ++i) {
+      lives.drawCentered(LIVES_INIT_X + i * 32, LIVES_INIT_Y);
+    }
   }
 }

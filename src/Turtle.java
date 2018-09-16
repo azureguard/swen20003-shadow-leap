@@ -12,14 +12,13 @@ public class Turtle extends WaterObstacle {
   public void update(int delta) {
     super.update(delta);
     time += delta;
-    //    System.err.println(time);
     if (time > 9000) {
       // appear
       enable();
       time = 0;
     } else if (time > 7000) {
-      disable();
       // disappear
+      disable();
     } else {
       enable();
     }

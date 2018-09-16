@@ -48,9 +48,13 @@ public class Obstacle extends Sprite {
     return directionRight;
   }
 
+  public float getVelocity() {
+    return speed * (isDirectionRight() ? 1 : -1);
+  }
+
   public void flipDirectionRight() {
     directionRight = !directionRight;
-    flipImage();
+    changeDirection();
   }
 
   public void update(int delta) {

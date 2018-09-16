@@ -4,7 +4,8 @@ import utilities.BoundingBox;
 
 public abstract class Sprite {
 
-  private Image sprite;
+  private Image sprite, spriteFlipped;
+  private boolean drawFlipped;
   private float posX, posY;
   private BoundingBox boundingBox;
 
@@ -16,14 +17,17 @@ public abstract class Sprite {
     sprite = new Image("assets/" + imageSrc + ".png");
     posX = x;
     posY = y;
+    drawFlipped = false;
+    spriteFlipped = null;
     this.boundingBox = new BoundingBox(this.sprite, x, y);
   }
 
 
   public Sprite(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     this(imageSrc, x, y);
+    spriteFlipped = sprite.getFlippedCopy(true, false);
     if (!directionRight && !imageSrc.equals("turtle") || (directionRight && imageSrc.equals("turtle"))) {
-      flipImage();
+      drawFlipped = true;
     }
   }
 
@@ -54,39 +58,41 @@ public abstract class Sprite {
   public void enable() {
     if (sprite.getAlpha() < 1) {
       sprite.setAlpha(sprite.getAlpha() + 0.1f);
+    } else if (boundingBox == null) {
+      boundingBox = new BoundingBox(sprite, posX, posY);
     }
-    boundingBox = new BoundingBox(sprite, posX, posY);
   }
 
   public void disable() {
     if (sprite.getAlpha() > 0) {
       sprite.setAlpha(sprite.getAlpha() - 0.1f);
+    } else if (boundingBox != null) {
+      boundingBox = null;
     }
-    boundingBox = null;
   }
 
-  public void flipImage() {
-    sprite = sprite.getFlippedCopy(true, false);
+  public void changeDirection() {
+    drawFlipped = !drawFlipped;
   }
 
   // How can this one method deal with different types of sprites?
   // public void update(Input input, int delta) {}
 
   public void render() {
-    sprite.drawCentered(posX, posY);
-  }
-
-  public void contactSolid(Sprite other) {
-
+    if (drawFlipped) {
+      spriteFlipped.drawCentered(posX, posY);
+    } else {
+      sprite.drawCentered(posX, posY);
+    }
   }
 
   // Called between player and any dangerous sprite
-  public void contactHazard(Sprite other) {
-    if (boundingBox.intersects(other.getBoundingBox())) {
-      Player player = other instanceof Player ? ((Player) other) : null;
-      if (player != null) {
-        player.onDeath();
-      }
+  public boolean contactHazard(Player player) {
+    if (boundingBox.intersects(player.getBoundingBox())) {
+      System.err.println(player.isRiding());
+      player.onDeath();
+      return true;
     }
+    return false;
   }
 }
