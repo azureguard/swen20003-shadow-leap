@@ -26,7 +26,7 @@ public class Level {
     String line;
     try (BufferedReader br = new BufferedReader(new FileReader("assets/levels/" + lvl))) {
       while ((line = br.readLine()) != null) {
-        String[] props = line.split(",");
+        String[] props = line.toLowerCase().split(",");
         float xPos = Float.parseFloat(props[1]);
         float yPos = Float.parseFloat(props[2]);
         if (props.length != 4) {
@@ -67,7 +67,11 @@ public class Level {
 
     for (Obstacle obstacle : obstacles) {
       obstacle.update(delta);
-      if (obstacle.isHazard()) {
+      if (obstacle instanceof Rideable) {
+        if (!player.isRiding()) {
+          ((Rideable) obstacle).ride(player);
+        }
+      } else if (obstacle.isHazard()) {
         if (!player.isRiding() && obstacle.contactHazard(player)) {
           break;
         }

@@ -5,6 +5,8 @@
 
 import org.newdawn.slick.*;
 
+import java.io.IOException;
+
 /**
  * Main class for the game.
  * Handles initialisation, input and rendering.
@@ -19,7 +21,9 @@ public class App extends BasicGame {
    */
   public static final int SCREEN_HEIGHT = 768;
 
-  private World world;
+  private Level level;
+  private int currLevel;
+
 
   public App() {
     super("Shadow Leap");
@@ -41,8 +45,16 @@ public class App extends BasicGame {
 
   @Override
   public void init(GameContainer gc) throws SlickException {
-    world = new World();
+    //    world = new World();
+    currLevel = 1;
+    try {
+      level = new Level(currLevel + ".lvl");
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.exit(1039);
+    }
   }
+
 
   /**
    * Update the game state for a frame.
@@ -54,7 +66,18 @@ public class App extends BasicGame {
   public void update(GameContainer gc, int delta) throws SlickException {
     // Get data about the current input (keyboard state).
     Input input = gc.getInput();
-    world.update(input, delta);
+    level.update(input, delta);
+    if (level.isComplete()) {
+      ++currLevel;
+      try {
+        level = new Level(currLevel + ".lvl");
+      } catch (IOException e) {
+        System.err.println("Game complete");
+        gc.exit();
+        //        System.exit(0);
+      }
+    }
+    //    world.update(input, delta);
   }
 
   /**
@@ -64,7 +87,7 @@ public class App extends BasicGame {
    * @param g  The Slick graphics object, used for drawing.
    */
   public void render(GameContainer gc, Graphics g) {
-    world.render();
+    level.render();
   }
 
 }

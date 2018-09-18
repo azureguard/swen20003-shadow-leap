@@ -10,6 +10,7 @@ public class Player extends Sprite {
   private static final String PLAYER_SPRITE = "frog";
   private static final int INIT_LIVES = 3;
   private int lives;
+  private Rideable riding;
   private boolean isRiding;
   private float rideSpeed;
 
@@ -50,27 +51,22 @@ public class Player extends Sprite {
     if (input.isKeyPressed(Input.KEY_RIGHT) && validMoves[3]) {
       newPosX += getWidth();
     }
-    BoundingBox nextPos = new BoundingBox(getSprite(), newPosX, newPosY);
-    for (Obstacle obstacle : obstacles) {
-      if (obstacle instanceof WaterObstacle || obstacle instanceof Bulldozer) {
-        if (contactRideable(obstacle, nextPos)) {
-          embark(obstacle.getVelocity());
-          break;
-        } else {
-          disembark();
-        }
-      }
-    }
 
     newPosX += rideSpeed * delta;
 
     // Movement limiting
     if (newPosX + getWidth() / 2 > App.SCREEN_WIDTH || newPosX - getWidth() / 2 < 0) {
+      if (isRiding && riding instanceof Bulldozer) {
+        onDeath();
+        return;
+      }
       newPosX = getPosX();
     }
     if (newPosY + getWidth() / 2 > App.SCREEN_HEIGHT || newPosY - getWidth() / 2 < 0) {
       newPosY = getPosY();
     }
+
+    disembark();
 
     // Update position and bounding box
     setPosX(newPosX);
@@ -81,9 +77,10 @@ public class Player extends Sprite {
     boundingBox.setY(newPosY);
   }
 
-  public void embark(float rideSpeed) {
+  public void embark(Rideable other) {
     this.isRiding = true;
-    this.rideSpeed = rideSpeed;
+    this.riding = other;
+    this.rideSpeed = ((Obstacle) other).getVelocity();
   }
 
   public boolean isRiding() {
@@ -93,10 +90,6 @@ public class Player extends Sprite {
   public void disembark() {
     this.isRiding = false;
     this.rideSpeed = 0;
-  }
-
-  private static boolean contactRideable(Obstacle other, BoundingBox nextPos) {
-    return (other.getBoundingBox() != null && nextPos.intersects(other.getBoundingBox()));
   }
 
   private boolean[] contactSolid(ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
