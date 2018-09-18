@@ -5,6 +5,7 @@ public class WaterObstacle extends Obstacle implements Rideable {
     super(imageSrc, x, y, directionRight);
   }
 
+  @Override
   public void ride(Player player) {
     if (getBoundingBox() != null && getBoundingBox().intersects(player.getBoundingBox())) {
       player.embark(this);

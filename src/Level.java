@@ -7,22 +7,31 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 
 public class Level {
-  private static final String[] WATER_OBSTACLES = new String[]{"turtle", "log", "longLog"};
+  private static final String[] WATER_OBSTACLES = new String[]{"turtle", "log", "longlog"};
   private static final int LIVES_INIT_X = 24;
   private static final int LIVES_INIT_Y = 744;
+  private static final Random random = new Random();
 
   private ArrayList<Tile> tiles;
   private ArrayList<Obstacle> obstacles;
+  private ArrayList<WaterObstacle> logs;
   private Player player;
   private Image lives = new Image("assets/lives.png");
+  private Bonus extraLife;
+  private int bonusTrigger = (random.nextInt(5) + 5) * 1000;
+
+  private int time = 0;
 
   public Level(String lvl) throws SlickException, IOException {
     player = new Player();
     tiles = new ArrayList<>();
     obstacles = new ArrayList<>();
+    logs = new ArrayList<>();
+
     String line;
     try (BufferedReader br = new BufferedReader(new FileReader("assets/levels/" + lvl))) {
       while ((line = br.readLine()) != null) {
@@ -39,7 +48,9 @@ public class Level {
                 obstacles.add(new Turtle(props[0], xPos, yPos, direction));
                 break;
               default:
-                obstacles.add(new WaterObstacle(props[0], xPos, yPos, direction));
+                WaterObstacle log = new WaterObstacle(props[0], xPos, yPos, direction);
+                obstacles.add(log);
+                logs.add(log);
             }
           } else {
             switch (props[0]) {
@@ -62,7 +73,23 @@ public class Level {
     return false;
   }
 
-  public void update(Input input, int delta) {
+  public void update(Input input, int delta) throws SlickException {
+    time += delta;
+
+    if (extraLife == null && time > bonusTrigger) {
+      WaterObstacle log = logs.get(random.nextInt(logs.size() - 1));
+      extraLife = new Bonus("extralife", log);
+    } else if (time > (bonusTrigger + 14000)) {
+      extraLife = null;
+      time = 0;
+    } else if (extraLife != null) {
+      extraLife.update(delta);
+      if (player.getBoundingBox().intersects(extraLife.getBoundingBox())) {
+        player.onBonus();
+        time = 0;
+        extraLife = null;
+      }
+    }
     player.update(input, delta, obstacles, tiles);
 
     for (Obstacle obstacle : obstacles) {
@@ -93,6 +120,9 @@ public class Level {
     }
     for (Obstacle obstacle : obstacles) {
       obstacle.render();
+    }
+    if (extraLife != null) {
+      extraLife.render();
     }
     player.render();
     for (int i = 0; i < player.getLives(); ++i) {

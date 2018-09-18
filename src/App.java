@@ -45,8 +45,7 @@ public class App extends BasicGame {
 
   @Override
   public void init(GameContainer gc) throws SlickException {
-    //    world = new World();
-    currLevel = 1;
+    currLevel = 0;
     try {
       level = new Level(currLevel + ".lvl");
     } catch (IOException e) {
