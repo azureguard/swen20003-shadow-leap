@@ -61,7 +61,8 @@ public class App extends BasicGame {
 
 
   /**
-   * Update the game state for a frame.
+   * Update the game state for a frame. Checks if a level is completed to load
+   * the next level. Exits when no other levels to load.
    *
    * @param gc    The Slick game container object.
    * @param delta Time passed since last frame (milliseconds).

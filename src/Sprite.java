@@ -3,19 +3,19 @@ import org.newdawn.slick.SlickException;
 import utilities.BoundingBox;
 
 /**
- * The type Sprite.
+ * The Sprite super class for all drawable objects in the game.
  */
 public abstract class Sprite {
 
   private Image sprite, spriteFlipped;
   private boolean drawFlipped;
-  private float posX, posY;
+  private float xPos, yPos;
   private BoundingBox boundingBox;
 
   /**
-   * Gets sprite.
+   * Get the Image object of the Sprite.
    *
-   * @return the sprite
+   * @return The Image object of the Sprite.
    */
   public Image getSprite() {
     return sprite;
@@ -24,15 +24,15 @@ public abstract class Sprite {
   /**
    * Instantiates a new Sprite.
    *
-   * @param imageSrc the image src
-   * @param x        the x
-   * @param y        the y
-   * @throws SlickException the slick exception
+   * @param imageSrc        The image src
+   * @param x               The x position on creation
+   * @param y               The y position on creation
+   * @throws SlickException Indicates a failure to load an image asset
    */
   public Sprite(String imageSrc, float x, float y) throws SlickException {
     sprite = new Image("assets/" + imageSrc + ".png");
-    posX = x;
-    posY = y;
+    xPos = x;
+    yPos = y;
     drawFlipped = false;
     spriteFlipped = null;
     this.boundingBox = new BoundingBox(this.sprite, x, y);
@@ -42,11 +42,11 @@ public abstract class Sprite {
   /**
    * Instantiates a new Sprite.
    *
-   * @param imageSrc       the image src
-   * @param x              the x
-   * @param y              the y
-   * @param directionRight the direction right
-   * @throws SlickException the slick exception
+   * @param imageSrc        The name of the PNG in assets/ without the extension
+   * @param x               The x position on creation
+   * @param y               The y position on creation
+   * @param directionRight  If the sprite starts by moving to the right
+   * @throws SlickException Indicates a failure to load an image asset
    */
   public Sprite(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     this(imageSrc, x, y);
@@ -57,72 +57,72 @@ public abstract class Sprite {
   }
 
   /**
-   * Gets pos x.
+   * Gets the x position.
    *
-   * @return the pos x
+   * @return The x position.
    */
-  public float getPosX() {
-    return posX;
+  public float getxPos() {
+    return xPos;
   }
 
   /**
-   * Sets pos x.
+   * Sets the x Position.
    *
-   * @param posX the pos x
+   * @param xPos The new x position.
    */
-  public void setPosX(float posX) {
-    this.posX = posX;
+  public void setxPos(float xPos) {
+    this.xPos = xPos;
   }
 
   /**
-   * Gets pos y.
+   * Gets the y position.
    *
-   * @return the pos y
+   * @return The y position.
    */
-  public float getPosY() {
-    return posY;
+  public float getyPos() {
+    return yPos;
   }
 
   /**
-   * Sets pos y.
+   * Sets the y position.
    *
-   * @param posY the pos y
+   * @param yPos The new y position.
    */
-  public void setPosY(float posY) {
-    this.posY = posY;
+  public void setyPos(float yPos) {
+    this.yPos = yPos;
   }
 
   /**
-   * Gets width.
+   * Gets the width of the loaded image asset.
    *
-   * @return the width
+   * @return The width of the image.
    */
   public float getWidth() {
     return sprite.getWidth();
   }
 
   /**
-   * Gets bounding box.
+   * Gets the BoundingBox of the Sprite.
    *
-   * @return the bounding box
+   * @return The BoundingBox of the Sprite.
    */
   public BoundingBox getBoundingBox() {
     return boundingBox;
   }
 
   /**
-   * Enable.
+   * Fades in the Sprite and creates its BoundingBox.
    */
   public void enable() {
     if (sprite.getAlpha() < 1) {
       sprite.setAlpha(sprite.getAlpha() + 0.1f);
     } else if (boundingBox == null) {
-      boundingBox = new BoundingBox(sprite, posX, posY);
+      boundingBox = new BoundingBox(sprite, xPos, yPos);
     }
   }
 
   /**
-   * Disable.
+   * Fades out the Sprite and remove its BoundingBox.
    */
   public void disable() {
     if (sprite.getAlpha() > 0) {
@@ -133,25 +133,26 @@ public abstract class Sprite {
   }
 
   /**
-   * Change direction.
+   * Flip the image in the x axis.
    */
   public void changeDirection() {
     drawFlipped = !drawFlipped;
   }
 
   /**
-   * Render.
+   * Draws the sprite given its properties and coordinates.
    */
   public void render() {
     if (drawFlipped) {
-      spriteFlipped.drawCentered(posX, posY);
+      spriteFlipped.drawCentered(xPos, yPos);
     } else {
-      sprite.drawCentered(posX, posY);
+      sprite.drawCentered(xPos, yPos);
     }
   }
 
   /**
-   * Contact hazard boolean.
+   * Check if the Player has contacted an obstacle. isHazard check already
+   * done.
    *
    * @param player the player
    * @return the boolean

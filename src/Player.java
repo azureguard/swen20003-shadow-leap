@@ -5,7 +5,7 @@ import utilities.BoundingBox;
 import java.util.ArrayList;
 
 /**
- * The type Player.
+ * The user controlled Player object.
  */
 public class Player extends Sprite {
   private static final int PLAYER_INIT_X = 512;
@@ -20,7 +20,7 @@ public class Player extends Sprite {
   /**
    * Instantiates a new Player.
    *
-   * @throws SlickException the slick exception
+   * @throws SlickException Indicates a failure to load the player image asset
    */
   public Player() throws SlickException {
     super(PLAYER_SPRITE, PLAYER_INIT_X, PLAYER_INIT_Y);
@@ -32,19 +32,20 @@ public class Player extends Sprite {
   /**
    * Gets lives.
    *
-   * @return the lives
+   * @return The number of lives the player has left
    */
   public int getLives() {
     return lives;
   }
 
   /**
-   * Update.
+   * Allows the player to make valid movement given the game state of obstacles
+   * and tiles.
    *
-   * @param input     the input
-   * @param delta     the delta
-   * @param obstacles the obstacles
-   * @param tiles     the tiles
+   * @param input     Input from interface devices
+   * @param delta     The time taken to render the last frame
+   * @param obstacles The obstacles in the Level object
+   * @param tiles     The tiles in the Level object
    */
   public void update(Input input, int delta, ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
     if (lives < 0) {
@@ -53,7 +54,7 @@ public class Player extends Sprite {
     // Determine valid movement directions
     boolean[] validMoves = solidDetection(obstacles, tiles);
 
-    float newPosX = getPosX(), newPosY = getPosY();
+    float newPosX = getxPos(), newPosY = getyPos();
     if (input.isKeyPressed(Input.KEY_UP) && validMoves[0]) {
       newPosY -= getWidth();
     }
@@ -68,6 +69,7 @@ public class Player extends Sprite {
       newPosX += getWidth();
     }
 
+    // When riding a Riadeable, keep relative position
     newPosX += rideSpeed * delta;
 
     // Movement limiting
@@ -77,17 +79,17 @@ public class Player extends Sprite {
         onDeath();
         return;
       }
-      newPosX = getPosX();
+      newPosX = getxPos();
     }
     if (newPosY + getWidth() / 2 > App.SCREEN_HEIGHT || newPosY - getWidth() / 2 < 0) {
-      newPosY = getPosY();
+      newPosY = getyPos();
     }
 
     disembark();
 
     // Update position and bounding box
-    setPosX(newPosX);
-    setPosY(newPosY);
+    setxPos(newPosX);
+    setyPos(newPosY);
 
     BoundingBox boundingBox = getBoundingBox();
     boundingBox.setX(newPosX);
@@ -95,9 +97,9 @@ public class Player extends Sprite {
   }
 
   /**
-   * Embark.
+   * Called when Player is in contact with a Rideable.
    *
-   * @param other the other
+   * @param other The Rideable object to embark on.
    */
   public void embark(Rideable other) {
     this.isRiding = true;
@@ -106,16 +108,16 @@ public class Player extends Sprite {
   }
 
   /**
-   * Is riding boolean.
+   * Check if the Player is riding a Rideable.
    *
-   * @return the boolean
+   * @return True if the Player is riding a Rideable.
    */
   public boolean isRiding() {
     return isRiding;
   }
 
   /**
-   * Disembark.
+   * Disembark from a Rideable.
    */
   public void disembark() {
     this.isRiding = false;
@@ -125,10 +127,10 @@ public class Player extends Sprite {
   private boolean[] solidDetection(ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
     // Offset boxes for movement validation
     BoundingBox[] possiblePositions = new BoundingBox[4];
-    possiblePositions[0] = new BoundingBox(getSprite(), getPosX(), getPosY() - getWidth());
-    possiblePositions[1] = new BoundingBox(getSprite(), getPosX(), getPosY() + getWidth());
-    possiblePositions[2] = new BoundingBox(getSprite(), getPosX() - getWidth(), getPosY());
-    possiblePositions[3] = new BoundingBox(getSprite(), getPosX() + getWidth(), getPosY());
+    possiblePositions[0] = new BoundingBox(getSprite(), getxPos(), getyPos() - getWidth());
+    possiblePositions[1] = new BoundingBox(getSprite(), getxPos(), getyPos() + getWidth());
+    possiblePositions[2] = new BoundingBox(getSprite(), getxPos() - getWidth(), getyPos());
+    possiblePositions[3] = new BoundingBox(getSprite(), getxPos() + getWidth(), getyPos());
 
     boolean[] validMoves = {true, true, true, true};
     for (Obstacle obstacle : obstacles) {
@@ -149,22 +151,22 @@ public class Player extends Sprite {
   }
 
   /**
-   * On bonus.
+   * Grants the Player an extra life.
    */
   public void onBonus() {
     lives += 1;
   }
 
   /**
-   * Resets player position.
+   * Resets the Player position.
    */
   public void reset() {
-    setPosX(PLAYER_INIT_X);
-    setPosY(PLAYER_INIT_Y);
+    setxPos(PLAYER_INIT_X);
+    setyPos(PLAYER_INIT_Y);
   }
 
   /**
-   * On death.
+   * Takes a life from the Player.
    */
   public void onDeath() {
     reset();

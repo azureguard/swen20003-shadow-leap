@@ -1,15 +1,15 @@
 import org.newdawn.slick.SlickException;
 
 /**
- * The type Goal.
+ * The Goal that a Player has to reach to progress in the game.
  */
 public class Goal extends Sprite {
   /**
-   * The constant GOAL_LINE.
+   * The constant GOAL_LINE where Goals are to be created.
    */
   public static final float GOAL_LINE = 48;
   /**
-   * The constant GOAL_WIDTH.
+   * The constant GOAL_WIDTH that goals need to have.
    */
   public static final float GOAL_WIDTH = 144;
   private static final String GOAL_IMAGE = "frog";
@@ -18,9 +18,9 @@ public class Goal extends Sprite {
   /**
    * Instantiates a new Goal.
    *
-   * @param x the x
-   * @param y the y
-   * @throws SlickException the slick exception
+   * @param x The x position on creation
+   * @param y The y position on creation
+   * @throws SlickException Indicates a failure to load an image asset
    */
   public Goal(float x, float y) throws SlickException {
     super(GOAL_IMAGE, x, y);
@@ -35,19 +35,19 @@ public class Goal extends Sprite {
   }
 
   /**
-   * Is achieved boolean.
+   * Check if the goal has been achieved.
    *
-   * @return the boolean
+   * @return True is the Goal has been achieved.
    */
   public boolean isAchieved() {
     return achieved;
   }
 
   /**
-   * Check achieved boolean.
+   * Check if the Player has reached a goal.
    *
-   * @param player the player
-   * @return the boolean
+   * @param player the Player
+   * @return True if the Player has reached the Goal.
    */
   public boolean checkAchieved(Player player) {
     if (!achieved && player.getBoundingBox().intersects(this.getBoundingBox())) {

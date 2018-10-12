@@ -1,11 +1,11 @@
 /**
- * The interface Rideable.
+ * The interface Rideable, used mainly for upcasting.
  */
 public interface Rideable {
   /**
-   * Ride.
+   * Allows Obstacles to be ridden.
    *
-   * @param player the player
+   * @param player the Player
    */
   void ride(Player player);
 }

@@ -1,7 +1,7 @@
 import org.newdawn.slick.SlickException;
 
 /**
- * The type Turtle.
+ * The Turtle WaterObstacle which disappears and reappears at set intervals.
  */
 public class Turtle extends WaterObstacle {
   private int time;
@@ -9,11 +9,11 @@ public class Turtle extends WaterObstacle {
   /**
    * Instantiates a new Turtle.
    *
-   * @param imageSrc       the image src
-   * @param x              the x
-   * @param y              the y
-   * @param directionRight the direction right
-   * @throws SlickException the slick exception
+   * @param imageSrc        The name of the PNG in assets/ without the extension
+   * @param x               The x position on creation
+   * @param y               The y position on creation
+   * @param directionRight  If the Turtle starts by moving to the right
+   * @throws SlickException Indicates a failure to load an image asset
    */
   public Turtle(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     super(imageSrc, x, y, directionRight);
@@ -23,15 +23,17 @@ public class Turtle extends WaterObstacle {
   @Override
   public void update(int delta) {
     super.update(delta);
+    // Increments the time steps from the delta.
     time += delta;
     if (time > 9000) {
-      // appear
+      // Appear again after 2 seconds
       enable();
       time = 0;
     } else if (time > 7000) {
-      // disappear
+      // Disappear after 7 seconds
       disable();
     } else {
+      // Make fully visible (enable fades in the image)
       enable();
     }
   }

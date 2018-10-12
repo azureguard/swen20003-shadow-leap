@@ -1,17 +1,16 @@
 import org.newdawn.slick.SlickException;
 
 /**
- * The type Water obstacle.
+ * The Water Obstacle class for all objects that exist on water.
  */
 public class WaterObstacle extends Obstacle implements Rideable {
   /**
    * Instantiates a new Water obstacle.
    *
-   * @param imageSrc       the image src
-   * @param x              the x
-   * @param y              the y
-   * @param directionRight the direction right
-   * @throws SlickException the slick exception
+   * @param imageSrc        The name of the PNG in assets/ without the extension
+   * @param x               The x position on creation
+   * @param y               The y position on creation
+   * @throws SlickException Indicates a failure to load an image asset
    */
   public WaterObstacle(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     super(imageSrc, x, y, directionRight);
