@@ -2,12 +2,12 @@ import org.newdawn.slick.SlickException;
 import utilities.BoundingBox;
 
 public class Bonus extends Sprite {
-  private Obstacle attachedTo;
+  private WaterObstacle attachedTo;
   private int time;
   private boolean directionRight;
   private float offsetX;
 
-  public Bonus(String imageSrc, Obstacle attachedTo) throws SlickException {
+  public Bonus(String imageSrc, WaterObstacle attachedTo) throws SlickException {
     super(imageSrc, attachedTo.getPosX(), attachedTo.getPosY());
     this.attachedTo = attachedTo;
     time = 0;

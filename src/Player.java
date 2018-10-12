@@ -21,11 +21,6 @@ public class Player extends Sprite {
     rideSpeed = 0;
   }
 
-  public void render() {
-    super.render();
-
-  }
-
   public int getLives() {
     return lives;
   }
@@ -34,8 +29,8 @@ public class Player extends Sprite {
     if (lives < 0) {
       System.exit(0);
     }
-
-    boolean[] validMoves = contactSolid(obstacles, tiles);
+    // Determine valid movement directions
+    boolean[] validMoves = solidDetection(obstacles, tiles);
 
     float newPosX = getPosX(), newPosY = getPosY();
     if (input.isKeyPressed(Input.KEY_UP) && validMoves[0]) {
@@ -56,6 +51,7 @@ public class Player extends Sprite {
 
     // Movement limiting
     if (newPosX + getWidth() / 2 > App.SCREEN_WIDTH || newPosX - getWidth() / 2 < 0) {
+      // Player pushed to screen edge by bulldozer
       if (isRiding && riding instanceof Bulldozer) {
         onDeath();
         return;
@@ -92,7 +88,8 @@ public class Player extends Sprite {
     this.rideSpeed = 0;
   }
 
-  private boolean[] contactSolid(ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
+  private boolean[] solidDetection(ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
+    // Offset boxes for movement validation
     BoundingBox[] possiblePositions = new BoundingBox[4];
     possiblePositions[0] = new BoundingBox(getSprite(), getPosX(), getPosY() - getWidth());
     possiblePositions[1] = new BoundingBox(getSprite(), getPosX(), getPosY() + getWidth());

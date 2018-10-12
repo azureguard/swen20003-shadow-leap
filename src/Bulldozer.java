@@ -6,10 +6,6 @@ public class Bulldozer extends Obstacle implements Rideable {
   }
 
   @Override
-  public void update(int delta) {
-    super.update(delta);
-  }
-
   public void ride(Player player) {
     if (getBoundingBox() != null && getBoundingBox().intersects(player.getBoundingBox())) {
       player.embark(this);

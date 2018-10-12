@@ -50,6 +50,7 @@ public class App extends BasicGame {
       level = new Level(currLevel + ".lvl");
     } catch (IOException e) {
       e.printStackTrace();
+      System.err.println("Initial level cannot be loaded");
       System.exit(1039);
     }
   }
@@ -71,12 +72,9 @@ public class App extends BasicGame {
       try {
         level = new Level(currLevel + ".lvl");
       } catch (IOException e) {
-        System.err.println("Game complete");
         gc.exit();
-        //        System.exit(0);
       }
     }
-    //    world.update(input, delta);
   }
 
   /**

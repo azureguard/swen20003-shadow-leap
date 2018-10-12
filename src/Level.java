@@ -20,17 +20,19 @@ public class Level {
   private ArrayList<Obstacle> obstacles;
   private ArrayList<WaterObstacle> logs;
   private Player player;
-  private Image lives = new Image("assets/lives.png");
+  private Image lives;
   private Bonus extraLife;
-  private int bonusTrigger = (random.nextInt(5) + 5) * 1000;
+  private int bonusTrigger;
 
   private int time = 0;
 
   public Level(String lvl) throws SlickException, IOException {
-    player = new Player();
     tiles = new ArrayList<>();
     obstacles = new ArrayList<>();
     logs = new ArrayList<>();
+    player = new Player();
+    lives = new Image("assets/lives.png");
+    bonusTrigger = (random.nextInt(5) + 5) * 1000;
 
     String line;
     try (BufferedReader br = new BufferedReader(new FileReader("assets/levels/" + lvl))) {
@@ -74,8 +76,9 @@ public class Level {
   }
 
   public void update(Input input, int delta) throws SlickException {
-    time += delta;
 
+    // Time keeping for extra life object logic
+    time += delta;
     if (extraLife == null && time > bonusTrigger) {
       WaterObstacle log = logs.get(random.nextInt(logs.size() - 1));
       extraLife = new Bonus("extralife", log);

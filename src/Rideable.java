@@ -1,3 +1,3 @@
 public interface Rideable {
-  public void ride(Player player);
+  void ride(Player player);
 }

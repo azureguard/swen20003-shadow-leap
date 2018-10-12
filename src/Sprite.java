@@ -75,9 +75,6 @@ public abstract class Sprite {
     drawFlipped = !drawFlipped;
   }
 
-  // How can this one method deal with different types of sprites?
-  // public void update(Input input, int delta) {}
-
   public void render() {
     if (drawFlipped) {
       spriteFlipped.drawCentered(posX, posY);
@@ -89,7 +86,6 @@ public abstract class Sprite {
   // Called between player and any dangerous sprite
   public boolean contactHazard(Player player) {
     if (boundingBox.intersects(player.getBoundingBox())) {
-      System.err.println(player.isRiding());
       player.onDeath();
       return true;
     }
