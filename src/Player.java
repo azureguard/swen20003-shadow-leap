@@ -4,6 +4,9 @@ import utilities.BoundingBox;
 
 import java.util.ArrayList;
 
+/**
+ * The type Player.
+ */
 public class Player extends Sprite {
   private static final int PLAYER_INIT_X = 512;
   private static final int PLAYER_INIT_Y = 720;
@@ -14,6 +17,11 @@ public class Player extends Sprite {
   private boolean isRiding;
   private float rideSpeed;
 
+  /**
+   * Instantiates a new Player.
+   *
+   * @throws SlickException the slick exception
+   */
   public Player() throws SlickException {
     super(PLAYER_SPRITE, PLAYER_INIT_X, PLAYER_INIT_Y);
     lives = INIT_LIVES;
@@ -21,10 +29,23 @@ public class Player extends Sprite {
     rideSpeed = 0;
   }
 
+  /**
+   * Gets lives.
+   *
+   * @return the lives
+   */
   public int getLives() {
     return lives;
   }
 
+  /**
+   * Update.
+   *
+   * @param input     the input
+   * @param delta     the delta
+   * @param obstacles the obstacles
+   * @param tiles     the tiles
+   */
   public void update(Input input, int delta, ArrayList<Obstacle> obstacles, ArrayList<Tile> tiles) {
     if (lives < 0) {
       System.exit(0);
@@ -73,16 +94,29 @@ public class Player extends Sprite {
     boundingBox.setY(newPosY);
   }
 
+  /**
+   * Embark.
+   *
+   * @param other the other
+   */
   public void embark(Rideable other) {
     this.isRiding = true;
     this.riding = other;
     this.rideSpeed = ((Obstacle) other).getVelocity();
   }
 
+  /**
+   * Is riding boolean.
+   *
+   * @return the boolean
+   */
   public boolean isRiding() {
     return isRiding;
   }
 
+  /**
+   * Disembark.
+   */
   public void disembark() {
     this.isRiding = false;
     this.rideSpeed = 0;
@@ -114,13 +148,26 @@ public class Player extends Sprite {
     return validMoves;
   }
 
+  /**
+   * On bonus.
+   */
   public void onBonus() {
     lives += 1;
   }
 
-  public void onDeath() {
+  /**
+   * Resets player position.
+   */
+  public void reset() {
     setPosX(PLAYER_INIT_X);
     setPosY(PLAYER_INIT_Y);
+  }
+
+  /**
+   * On death.
+   */
+  public void onDeath() {
+    reset();
     lives -= 1;
   }
 }

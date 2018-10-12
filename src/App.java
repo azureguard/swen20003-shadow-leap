@@ -25,6 +25,9 @@ public class App extends BasicGame {
   private int currLevel;
 
 
+  /**
+   * Instantiates a new App.
+   */
   public App() {
     super("Shadow Leap");
   }
@@ -33,6 +36,7 @@ public class App extends BasicGame {
    * Start-up method. Creates the game and runs it.
    *
    * @param args Command-line arguments (ignored).
+   * @throws SlickException the slick exception
    */
   public static void main(String[] args)
           throws SlickException {
@@ -47,7 +51,7 @@ public class App extends BasicGame {
   public void init(GameContainer gc) throws SlickException {
     currLevel = 0;
     try {
-      level = new Level(currLevel + ".lvl");
+      level = new Level(currLevel + ".lvl", new Player());
     } catch (IOException e) {
       e.printStackTrace();
       System.err.println("Initial level cannot be loaded");
@@ -70,7 +74,7 @@ public class App extends BasicGame {
     if (level.isComplete()) {
       ++currLevel;
       try {
-        level = new Level(currLevel + ".lvl");
+        level = new Level(currLevel + ".lvl", level.getPlayer());
       } catch (IOException e) {
         gc.exit();
       }

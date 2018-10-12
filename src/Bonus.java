@@ -1,12 +1,22 @@
 import org.newdawn.slick.SlickException;
 import utilities.BoundingBox;
 
+/**
+ * The type Bonus.
+ */
 public class Bonus extends Sprite {
   private WaterObstacle attachedTo;
   private int time;
   private boolean directionRight;
   private float offsetX;
 
+  /**
+   * Instantiates a new Bonus.
+   *
+   * @param imageSrc   the image src
+   * @param attachedTo the attached to
+   * @throws SlickException the slick exception
+   */
   public Bonus(String imageSrc, WaterObstacle attachedTo) throws SlickException {
     super(imageSrc, attachedTo.getPosX(), attachedTo.getPosY());
     this.attachedTo = attachedTo;
@@ -15,6 +25,11 @@ public class Bonus extends Sprite {
     offsetX = 0;
   }
 
+  /**
+   * Update.
+   *
+   * @param delta the delta
+   */
   public void update(int delta) {
     time += delta;
     int direction = directionRight ? 1 : -1;

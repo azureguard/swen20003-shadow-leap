@@ -1,8 +1,20 @@
 import org.newdawn.slick.SlickException;
 
+/**
+ * The type Turtle.
+ */
 public class Turtle extends WaterObstacle {
   private int time;
 
+  /**
+   * Instantiates a new Turtle.
+   *
+   * @param imageSrc       the image src
+   * @param x              the x
+   * @param y              the y
+   * @param directionRight the direction right
+   * @throws SlickException the slick exception
+   */
   public Turtle(String imageSrc, float x, float y, boolean directionRight) throws SlickException {
     super(imageSrc, x, y, directionRight);
     time = 0;

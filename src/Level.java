@@ -10,12 +10,17 @@ import java.util.Arrays;
 import java.util.Random;
 
 
+/**
+ * The type Level.
+ */
 public class Level {
   private static final String[] WATER_OBSTACLES = new String[]{"turtle", "log", "longlog"};
   private static final int LIVES_INIT_X = 24;
   private static final int LIVES_INIT_Y = 744;
+
   private static final Random random = new Random();
 
+  private ArrayList<Goal> goals;
   private ArrayList<Tile> tiles;
   private ArrayList<Obstacle> obstacles;
   private ArrayList<WaterObstacle> logs;
@@ -26,20 +31,36 @@ public class Level {
 
   private int time = 0;
 
-  public Level(String lvl) throws SlickException, IOException {
+  /**
+   * Instantiates a new Level.
+   *
+   * @param lvl    the lvl
+   * @param player the player
+   * @throws SlickException the slick exception
+   * @throws IOException    the io exception
+   */
+  public Level(String lvl, Player player) throws SlickException, IOException {
+    goals = new ArrayList<>();
     tiles = new ArrayList<>();
     obstacles = new ArrayList<>();
     logs = new ArrayList<>();
-    player = new Player();
+    this.player = player;
     lives = new Image("assets/lives.png");
     bonusTrigger = (random.nextInt(5) + 5) * 1000;
 
     String line;
     try (BufferedReader br = new BufferedReader(new FileReader("assets/levels/" + lvl))) {
+      float lastXPos = 0;
       while ((line = br.readLine()) != null) {
         String[] props = line.toLowerCase().split(",");
         float xPos = Float.parseFloat(props[1]);
         float yPos = Float.parseFloat(props[2]);
+        if (yPos == Goal.GOAL_LINE) {
+          if (xPos - lastXPos == Goal.GOAL_WIDTH) {
+            goals.add(new Goal(xPos - Goal.GOAL_WIDTH / 2, yPos));
+          }
+          lastXPos = xPos;
+        }
         if (props.length != 4) {
           tiles.add(new Tile(props[0], xPos, yPos));
         } else {
@@ -71,12 +92,28 @@ public class Level {
     }
   }
 
+  /**
+   * Is complete boolean.
+   *
+   * @return the boolean
+   */
   public boolean isComplete() {
-    return false;
+    for (Goal goal : goals) {
+      if (!goal.isAchieved()) {
+        return false;
+      }
+    }
+    return true;
   }
 
+  /**
+   * Update.
+   *
+   * @param input the input
+   * @param delta the delta
+   * @throws SlickException the slick exception
+   */
   public void update(Input input, int delta) throws SlickException {
-
     // Time keeping for extra life object logic
     time += delta;
     if (extraLife == null && time > bonusTrigger) {
@@ -93,7 +130,18 @@ public class Level {
         extraLife = null;
       }
     }
+
+    for (Goal goal : goals) {
+      if (goal.checkAchieved(player)) {
+        player.reset();
+      } else if (goal.isAchieved()) {
+        goal.contactHazard(player);
+      }
+    }
+
+
     player.update(input, delta, obstacles, tiles);
+
 
     for (Obstacle obstacle : obstacles) {
       obstacle.update(delta);
@@ -117,7 +165,13 @@ public class Level {
     }
   }
 
+  /**
+   * Render.
+   */
   public void render() {
+    for (Goal goal : goals) {
+      goal.render();
+    }
     for (Tile tile : tiles) {
       tile.render();
     }
@@ -131,5 +185,14 @@ public class Level {
     for (int i = 0; i < player.getLives(); ++i) {
       lives.drawCentered(LIVES_INIT_X + i * 32, LIVES_INIT_Y);
     }
+  }
+
+  /**
+   * Gets player.
+   *
+   * @return the player
+   */
+  public Player getPlayer() {
+    return player;
   }
 }
