@@ -5,6 +5,8 @@
 
 import org.newdawn.slick.*;
 
+import java.io.IOException;
+
 /**
  * Main class for the game.
  * Handles initialisation, input and rendering.
@@ -19,8 +21,13 @@ public class App extends BasicGame {
    */
   public static final int SCREEN_HEIGHT = 768;
 
-  private World world;
+  private Level level;
+  private int currLevel;
 
+
+  /**
+   * Instantiates a new App.
+   */
   public App() {
     super("Shadow Leap");
   }
@@ -29,6 +36,7 @@ public class App extends BasicGame {
    * Start-up method. Creates the game and runs it.
    *
    * @param args Command-line arguments (ignored).
+   * @throws SlickException the slick exception
    */
   public static void main(String[] args)
           throws SlickException {
@@ -40,22 +48,38 @@ public class App extends BasicGame {
   }
 
   @Override
-  public void init(GameContainer gc)
-          throws SlickException {
-    world = new World();
+  public void init(GameContainer gc) throws SlickException {
+    currLevel = 0;
+    try {
+      level = new Level(currLevel + ".lvl", new Player());
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.err.println("Initial level cannot be loaded");
+      System.exit(1039);
+    }
   }
 
+
   /**
-   * Update the game state for a frame.
+   * Update the game state for a frame. Checks if a level is completed to load
+   * the next level. Exits when no other levels to load.
    *
    * @param gc    The Slick game container object.
    * @param delta Time passed since last frame (milliseconds).
    */
   @Override
-  public void update(GameContainer gc, int delta) {
+  public void update(GameContainer gc, int delta) throws SlickException {
     // Get data about the current input (keyboard state).
     Input input = gc.getInput();
-    world.update(input, delta);
+    level.update(input, delta);
+    if (level.isComplete()) {
+      ++currLevel;
+      try {
+        level = new Level(currLevel + ".lvl", level.getPlayer());
+      } catch (IOException e) {
+        gc.exit();
+      }
+    }
   }
 
   /**
@@ -65,7 +89,7 @@ public class App extends BasicGame {
    * @param g  The Slick graphics object, used for drawing.
    */
   public void render(GameContainer gc, Graphics g) {
-    world.render();
+    level.render();
   }
 
 }

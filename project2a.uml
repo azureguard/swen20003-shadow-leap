@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="317.5" y="2245.0">App</node>
+    <node x="1262.2920634920636" y="605.0">Obstacle</node>
+    <node x="769.2920634920634" y="736.0">Rideable</node>
+    <node x="730.0" y="1171.5">Bulldozer</node>
+    <node x="1444.0" y="1145.0">Bike</node>
+    <node x="1088.9837301587302" y="1542.0">Turtle</node>
+    <node x="240.0" y="976.0">Player</node>
+    <node x="147.68253968253987" y="0.0">Sprite</node>
+    <node x="163.0" y="1503.0">Bonus</node>
+    <node x="0.0" y="683.0">Tile</node>
+    <node x="341.0" y="1744.0">Level</node>
+    <node x="1069.0" y="1171.5">WaterObstacle</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Bonus" target="WaterObstacle">
+      <point x="66.5" y="-95.5" />
+      <point x="362.5" y="1478.0" />
+      <point x="1128.0" y="1478.0" />
+      <point x="-118.0" y="43.0" />
+    </edge>
+    <edge source="Obstacle" target="Sprite">
+      <point x="0.0" y="-160.5" />
+      <point x="1419.2920634920636" y="580.0" />
+      <point x="405.80753968253987" y="580.0" />
+      <point x="110.625" y="277.5" />
+    </edge>
+    <edge source="Tile" target="Sprite">
+      <point x="0.0" y="-82.5" />
+      <point x="109.5" y="580.0" />
+      <point x="184.55753968253987" y="580.0" />
+      <point x="-110.625" y="277.5" />
+    </edge>
+    <edge source="Level" target="Player">
+      <point x="0.0" y="-225.5" />
+      <point x="0.0" y="238.5" />
+    </edge>
+    <edge source="Level" target="Obstacle">
+      <point x="107.20000000000005" y="-225.5" />
+      <point x="582.2" y="1724.0" />
+      <point x="1433.5" y="1724.0" />
+      <point x="1433.5" y="956.0" />
+      <point x="1458.5420634920636" y="956.0" />
+      <point x="39.25" y="160.5" />
+    </edge>
+    <edge source="Player" target="Sprite">
+      <point x="-117.5" y="-238.5" />
+      <point x="357.5" y="580.0" />
+      <point x="332.05753968253987" y="580.0" />
+      <point x="36.875" y="277.5" />
+    </edge>
+    <edge source="Level" target="WaterObstacle">
+      <point x="53.60000000000002" y="-225.5" />
+      <point x="528.6" y="1714.0" />
+      <point x="1403.7337301587302" y="1714.0" />
+      <point x="1403.7337301587302" y="1478.0" />
+      <point x="1364.0" y="1478.0" />
+      <point x="118.0" y="43.0" />
+    </edge>
+    <edge source="Player" target="Rideable">
+      <point x="117.5" y="-238.5" />
+      <point x="592.5" y="956.0" />
+      <point x="797.9587301587301" y="956.0" />
+      <point x="-57.33333333333337" y="29.5" />
+    </edge>
+    <edge source="Turtle" target="WaterObstacle">
+      <point x="0.0" y="-56.5" />
+      <point x="1236.4837301587302" y="1478.0" />
+      <point x="1246.0" y="1478.0" />
+      <point x="0.0" y="43.0" />
+    </edge>
+    <edge source="Bike" target="Obstacle">
+      <point x="0.0" y="-69.5" />
+      <point x="1586.0" y="956.0" />
+      <point x="1537.0420634920636" y="956.0" />
+      <point x="117.75" y="160.5" />
+    </edge>
+    <edge source="WaterObstacle" target="Rideable">
+      <point x="-88.5" y="-43.0" />
+      <point x="1157.5" y="946.0" />
+      <point x="912.6253968253968" y="946.0" />
+      <point x="57.33333333333337" y="29.5" />
+    </edge>
+    <edge source="Level" target="Tile">
+      <point x="-107.19999999999999" y="-225.5" />
+      <point x="367.8" y="1724.0" />
+      <point x="109.5" y="1724.0" />
+      <point x="0.0" y="82.5" />
+    </edge>
+    <edge source="Bulldozer" target="Rideable">
+      <point x="-79.75000000000011" y="-43.0" />
+      <point x="809.7499999999999" y="956.0" />
+      <point x="855.2920634920634" y="956.0" />
+      <point x="0.0" y="29.5" />
+    </edge>
+    <edge source="Bonus" target="Sprite">
+      <point x="-66.5" y="-95.5" />
+      <point x="229.5" y="580.0" />
+      <point x="258.30753968253987" y="580.0" />
+      <point x="-36.875" y="277.5" />
+    </edge>
+    <edge source="Level" target="Bonus">
+      <point x="-53.60000000000002" y="-225.5" />
+      <point x="421.4" y="1714.0" />
+      <point x="296.0" y="1714.0" />
+      <point x="0.0" y="95.5" />
+    </edge>
+    <edge source="Bulldozer" target="Obstacle">
+      <point x="79.74999999999989" y="-43.0" />
+      <point x="969.2499999999999" y="956.0" />
+      <point x="1301.5420634920636" y="956.0" />
+      <point x="-117.75" y="160.5" />
+    </edge>
+    <edge source="WaterObstacle" target="Obstacle">
+      <point x="88.5" y="-43.0" />
+      <point x="1334.5" y="956.0" />
+      <point x="1380.0420634920636" y="956.0" />
+      <point x="-39.25" y="160.5" />
+    </edge>
+    <edge source="App" target="Level">
+      <point x="0.0" y="-134.5" />
+      <point x="0.0" y="225.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="916.0" y="399.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
